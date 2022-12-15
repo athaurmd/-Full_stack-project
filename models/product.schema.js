@@ -30,8 +30,12 @@ const productSchema = new mongoose.Schema(
             type : Number,
             default : 0
         },
+        slod : {
+            type : Number,
+            default : 0
+        },
         collectionId : {
-            type :mongoose.Schema.Types.ObjectId,
+            type : mongoose.Schema.Types.ObjectId,
             ref : "Collection"
         }
         
