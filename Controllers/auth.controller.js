@@ -51,3 +51,44 @@ export const signUp = asyncHandler(async(req,res)=>{
     })
 })
 
+/********************************* 
+ 
+ * @signIn
+ * @route http://localhost:4000/api/auth/signIn
+ * @description User signIn controller for loging the User
+ * @parameters email, password
+ * @returns User Object 
+
+**********************************/
+
+export const signIn = asyncHandler(async (req, res)=>{
+    const {email, password} = req.body
+
+    if(!email || !password){
+        throw new CustomError("All fields are required", 400)
+    }
+    
+    const user = User.findOne({email}).select("+password")
+
+    if(!user){
+        throw new CustomError("Invalid Credentials", 400)
+    }
+
+    const  isPasswordMatched = await user.comparePassword(password)
+
+    if(isPasswordMatched){
+        const token = await user.getJwtToken()
+        user.password = undefined
+        res.cookie("token", token, cookieOptions)
+        return res.status(200).json({
+            success : true,
+            token,
+            user
+        })
+    }
+
+    if(!isPasswordMatched){
+        throw new CustomError("Passowrd Mismatced Invalid Credentials", 400)
+    }
+
+})
