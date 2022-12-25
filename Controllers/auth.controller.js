@@ -92,3 +92,25 @@ export const signIn = asyncHandler(async (req, res)=>{
     }
 
 })
+
+/********************************* 
+ * @LOGOUT
+ * @route http://localhost:4000/api/auth/logout
+ * @description User logout by deleting user cookies
+ * @parameters email, password
+ * @returns Success Message
+
+**********************************/
+
+export const logOut = asyncHandler(async (_req, res)=>{
+    res.cookie("token", null, {
+        expires : new Date(Date.now()),
+        httponly: true
+    })
+    res.status(200).json({
+        success : true,
+        message : 'LOGGED OUT'
+    })
+
+})
+
