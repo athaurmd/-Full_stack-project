@@ -13,13 +13,9 @@ export const createCollection = asyncHandler(async (req, res)=>{
 
 })
 
-
-
-
 export const updateCollection = asyncHandler(async(req, res)=>{
     const {id : collectionId} = req.params
-
-
+    
     const collectionToDelete = await Collection.findByIdAndDelete(collectionId)
 
     if (!collectionToDelete) {
